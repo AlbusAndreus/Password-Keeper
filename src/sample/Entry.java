@@ -4,6 +4,7 @@ public class Entry {
     String Account;
     String Email;
     String Password;
+    String Name;
 
     public String getAccount() {
         return Account;
@@ -11,6 +12,10 @@ public class Entry {
 
     public void setAccount(String account) {
         Account = account;
+    }
+
+    public Entry(String name) {
+        this.Name = name;
     }
 
     public String getEmail() {
