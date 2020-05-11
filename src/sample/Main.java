@@ -54,7 +54,7 @@ public class Main extends Application {
         Button CheckEntries = new Button("Check Entries");
         GridPane.setConstraints(CheckEntries, 0,1);
         CheckEntries.setOnAction(event->{
-           sample.Browse.display();
+           sample.Browse.display(Entries);
         });
 
         //Button to save the Passwords to a file
@@ -66,19 +66,23 @@ public class Main extends Application {
             fileChooser.setSelectedExtensionFilter(extfilt);
 
             try{
-               FileOutputStream fos = new FileOutputStream(fileChooser.showSaveDialog(primaryStage));
-
+               FileWriter fos = new FileWriter(fileChooser.showSaveDialog(primaryStage));
+                PrintWriter writer = new PrintWriter(fos);
                 for (Entry entry : Entries) {
-                    String newLine = "/n";
-                    String str = entry.getAccount() + newLine + entry.getEmail() + newLine + entry.getPassword() + newLine;
-                    byte[] accountToFile = str.getBytes();
-                    fos.write(accountToFile);
+                    //String newLine = "/n";
+                    String account = entry.getAccount();
+                    String email = entry.getEmail();
+                    String password = entry.getPassword();
+                   // byte[] accountToFile = str.getBytes();
+                    writer.println(account);
+                    writer.println(email);
+                    writer.println(password);
 
 
                 }
                 System.out.println("File Written");
-                fos.flush();
-                fos.close();
+                writer.flush();
+                writer.close();
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -105,6 +109,7 @@ public class Main extends Application {
                     line = reader.readLine();
                     entry.setPassword(line);
                     line = reader.readLine();
+                    Entries.add(entry);
                     count++;
                 }
             }catch(IOException e){
@@ -114,7 +119,7 @@ public class Main extends Application {
 
         primaryStage.setScene(new Scene(gp, 300, 275));
         primaryStage.show();
-        gp.getChildren().addAll(NewEntry, SaveToFile, loadAndOverWrite);
+        gp.getChildren().addAll(NewEntry, SaveToFile, loadAndOverWrite, CheckEntries);
     }
 
 
